@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import history from "../../components/customHistory"
 
 import AppHeader from "../header/header"
-import AppDrawer from "../drawer/drawer"
+import MiniDrawer from "../drawer/drawer"
 
 export default class Main extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ export default class Main extends Component {
     render() {
         return (
             <div>
-                <AppDrawer open={this.state.isMenuOpen} onToggle={() => this.setState({isMenuOpen: false})}/>
+                <MiniDrawer open={this.state.isMenuOpen} onToggle={() => this.setState({isMenuOpen: false})}/>
             </div>
         )
     }

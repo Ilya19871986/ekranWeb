@@ -15,7 +15,7 @@ class WelcomePage extends React.Component {
       email: '',
       password: '',
       _auth: false,
-      token: (localStorage.getItem('token') == null || localStorage.getItem('token') == undefined) ? false : true
+      token: (localStorage.getItem('token') == null || localStorage.getItem('token') == 'undefined') ? false : true
     }
   }
 
@@ -32,15 +32,23 @@ class WelcomePage extends React.Component {
  onSigninSubmit = async (e) =>{
     e.preventDefault();
     await this.props.Auth(this.state.email, this.state.password)
-    this.setState({_auth: this.props.auth})
+
+    this.setState({
+      _auth: this.props.auth,
+      token: (localStorage.getItem('token') == null || localStorage.getItem('token') == 'undefined') ? false : true
+    })
+
     console.log(this.props.auth)
+    console.log(this.state.token)
+    console.log(localStorage.getItem('token'))
   }
 
   render() {
     // если аутентификация
-    if (this.state._auth || this.state.token) {
+    if (this.state._auth && this.state.token || true ) {
       return <Main/> 
     }
+    else
     return(
       <div>
         <Login 

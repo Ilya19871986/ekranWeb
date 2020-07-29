@@ -11,3 +11,13 @@ export function MainLoader() {
         </div> 
     )
 }
+
+export function PanelLoader() {
+    return (
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: "center",  margin: '.5rem', width: '85%', height: '100%', top: '50%'}}> 
+            <BallScaleRippleMultiple
+            color={'#123abc'}
+            loading={true} />
+        </div> 
+    )
+}

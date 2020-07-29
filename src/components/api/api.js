@@ -12,7 +12,7 @@ import { auth,
     delete_panels
     } from "../api/api_path"
 
-
+// аутентификация
 export async function getToken(username, password) {
     const formData = new FormData();
 
@@ -39,3 +39,49 @@ export async function getToken(username, password) {
         return false;
     }
 }
+
+// получаем роль пользователя
+export async function getRole(username, password) {
+    /*
+     *   1 - глобальный администратор
+     *   2 - пользователь плеера
+     *   3 - администратор вокзала
+     *   4 - пользователь расписания вокзала
+    */
+    
+    const token = localStorage.getItem("token");
+    const response = await fetch(api_address + role + "?username=" + username + "&password=" + password , {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token  
+        }
+    });
+
+    const data = await response.json();
+    localStorage.removeItem("role");
+    localStorage.setItem("role", data.role);
+    localStorage.setItem("UserId", data.id);
+    localStorage.setItem("UserFolder", data.working_folder);
+ 
+    switch (data.role) {
+        case "1": localStorage.setItem("RoleName", "Администратор"); break;
+        case "2": localStorage.setItem("RoleName", "Пользователь"); break;
+        case "3": localStorage.setItem("RoleName", "Администратор вокзала"); break;
+        case "4": localStorage.setItem("RoleName", "Пользователь расписания"); break;
+    }
+}
+
+// получаем список панеле пользователя по id
+export async function getListPanels() {
+    const UserId = localStorage.getItem("UserId")
+    const response = await fetch(api_address + get_panels + "?UserId=" + UserId, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")  
+            }
+        });
+    return response;
+}
+

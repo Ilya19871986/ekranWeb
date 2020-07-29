@@ -116,7 +116,7 @@ export default function MiniDrawer() {
     }
   };
 
-  if (localStorage.getItem('token') == null || localStorage.getItem('token') == undefined) return (<WelcomePage/>)
+  if (localStorage.getItem('token') == null || localStorage.getItem('token') == 'undefined') return (<WelcomePage/>)
 
   const handleDrawerOpen = () => {
     setOpen(true);
