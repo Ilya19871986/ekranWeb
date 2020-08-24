@@ -9,7 +9,12 @@ import { auth,
     delete_file, 
     update_file, 
     change_panels,
-    delete_panels
+    delete_panels,
+    get_users,
+    save_user,
+    create_user,
+    delete_user,
+    get_content_type
     } from "../api/api_path"
 
 // аутентификация
@@ -85,3 +90,193 @@ export async function getListPanels() {
     return response;
 }
 
+export async function getListUsers() {
+    const UserId = localStorage.getItem("UserId")
+    const response = await fetch(api_address + get_users + "?adminId=" + UserId, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")  
+            }
+        });
+    return response;
+}
+
+export async function updateUser(tmp) {
+    const response = await fetch(api_address + save_user, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+            "Authorization": "Bearer " + localStorage.getItem("token")   
+        },
+        body: JSON.stringify(tmp)
+    }) 
+    return response;
+}
+
+
+export async function CreateUser(username, password, surname, name, description, adminId, role) {
+    
+    let formData = new FormData();
+
+    formData.append("userName", username);
+    formData.append("password", password);
+    formData.append("surname", surname);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("adminId", adminId);
+    formData.append("role", role);
+
+    const result = await fetch(api_address + create_user, {
+        method: "POST",
+        headers: {"Accept": "application/json", 
+                  "Authorization": "Bearer " + localStorage.getItem("token") },
+        body: formData
+        });     
+
+    return result
+}
+
+export async function DeleteUser(username) {
+    
+    let formData = new FormData();
+
+    formData.append("userName", username);
+
+    const result = await fetch(api_address + delete_user, {
+        method: "POST",
+        headers: {"Accept": "application/json", 
+                  "Authorization": "Bearer " + localStorage.getItem("token") },
+        body: formData
+        });     
+
+    return result
+}
+
+export async function deletePanel(PanelId) {
+   
+    const response = await fetch(api_address + delete_panels + "?PanelId=" + PanelId , {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+
+    return response
+}
+
+// получить весь контент панели по panel_id
+export async function getContent(panel_id) {
+        
+    const response = await fetch(api_address + get_content + "?PanelId=" + panel_id, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить весь контент панели по panel_id и типу контента
+export async function getContentType(panel_id, type) {
+    const response = await fetch(api_address + get_content_type + "?PanelId=" + panel_id + "&type=" + type, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// отправка файла на сервер
+export async function postFile(file, path, panel_id, type) {
+    const formData = new FormData();
+    
+    formData.append('uploadedFile', file)
+    formData.append('path', path)
+    formData.append('panel_id', panel_id)
+    formData.append('user_id', localStorage.getItem("UserId"))
+    formData.append('type_content', type)
+   
+    await fetch (api_address + post_file,
+        {
+            method: "POST",
+            headers: {"Accept": "multipart/form-data", 
+                      "Authorization": "Bearer " + localStorage.getItem("token")},
+            body: formData
+    }).then(
+        res => {return res.statusText}
+    )
+} 
+
+export async function UpdateFile(file_id, end_date) {
+
+    const formData = new FormData();
+
+    formData.append('id', file_id)
+    formData.append('newDate', end_date)
+
+    await fetch (api_address + update_file, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token") 
+        },
+        body: formData
+    }).then(res => {console.log(res.statusText)});
+}
+
+// удалить файл
+export async function delFile(file_id) {
+    
+    const formData = new FormData();
+
+    formData.append('id', file_id)
+
+    await fetch (api_address + delete_file, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token") 
+        },
+        body: formData
+    }).then(res => {console.log(res.statusText)});
+}
+
+// изменить настройки панели
+export async function changePanel(id, run_text, time_vip, address, newName, OnlyVip) {
+
+    const formData = new FormData();
+
+    formData.append("id", id)
+    formData.append("run_text", run_text)
+    formData.append("time_vip", time_vip)
+    formData.append("address", address)
+    formData.append("newName", newName)
+    formData.append("OnlyVip", OnlyVip)
+
+    await fetch (api_address + change_panels, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        body: formData
+    }).then(res => { return res.statusText})
+}
+
+// сменить пароль
+export async function changePassword(user_id, newPassword) {
+    const response = await fetch(api_address + changePass + "?id=" + user_id + "&newpassword=" + newPassword, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}

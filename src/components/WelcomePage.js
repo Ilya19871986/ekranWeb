@@ -37,15 +37,11 @@ class WelcomePage extends React.Component {
       _auth: this.props.auth,
       token: (localStorage.getItem('token') == null || localStorage.getItem('token') == 'undefined') ? false : true
     })
-
-    console.log(this.props.auth)
-    console.log(this.state.token)
-    console.log(localStorage.getItem('token'))
   }
 
   render() {
     // если аутентификация
-    if (this.state._auth && this.state.token || true ) {
+    if (this.state.token) {
       return <Main/> 
     }
     else

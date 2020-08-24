@@ -105,17 +105,20 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(localStorage.getItem("role") === "1" ? 5: 0);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
 
-    switch (index) {
-      // выход
-      case 6: localStorage.removeItem('token')
-    }
-  };
+    if (index === 6) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        localStorage.removeItem('UserId');
+        localStorage.removeItem('UserFolder');
+        localStorage.removeItem('RoleName');    
+    };
 
+  }
   if (localStorage.getItem('token') == null || localStorage.getItem('token') == 'undefined') return (<WelcomePage/>)
 
   const handleDrawerOpen = () => {
@@ -173,23 +176,40 @@ export default function MiniDrawer() {
         <Divider />
         
         <List>
-          <ListItem 
+          {
+            localStorage.getItem("role") === "1" &&
+            <ListItem 
+            button 
+            selected={selectedIndex === 5}
+            onClick={(event) => handleListItemClick(event, 5) }
+          >
+            <ListItemIcon className={classes.icon}><PeopleAltIcon fontSize={"large"}/> </ListItemIcon>
+            <ListItemText primary={'Пользователи'} />
+          </ListItem>
+          }
+          {
+            localStorage.getItem("role") === "2" &&
+            <ListItem  
             button 
             selected={selectedIndex === 0}
             onClick={(event) => handleListItemClick(event, 0) }
           >
             <ListItemIcon className={classes.icon}><AddToQueueIcon fontSize={"large"} /> </ListItemIcon>
             <ListItemText primary={'Мои панели'} />
-          </ListItem>
-
-          <ListItem 
+            </ListItem>
+          }
+          
+          {
+            localStorage.getItem("role") === "2" &&
+            <ListItem 
             button 
             selected={selectedIndex === 1}
             onClick={(event) => handleListItemClick(event, 1) }
           >
             <ListItemIcon className={classes.icon}><FlipCameraIosIcon fontSize={"large"}/> </ListItemIcon>
             <ListItemText primary={'Файлы'} />
-          </ListItem>
+            </ListItem>
+          }
 
           <ListItem 
             button 
@@ -218,14 +238,7 @@ export default function MiniDrawer() {
             <ListItemText primary={'Настройки'} />
           </ListItem>
 
-          <ListItem 
-            button 
-            selected={selectedIndex === 5}
-            onClick={(event) => handleListItemClick(event, 5) }
-          >
-            <ListItemIcon className={classes.icon}><PeopleAltIcon fontSize={"large"}/> </ListItemIcon>
-            <ListItemText primary={'Пользователи'} />
-          </ListItem>
+          
           <Divider /> <Divider /><Divider />
           <ListItem 
             button 

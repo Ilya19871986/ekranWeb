@@ -22,7 +22,7 @@ export default class Panel extends Component {
         var Data1 = Date.parse(Data);
         var Data2 = Date.parse(this.props.panel.last_connect);
         var resultTime = (((Data1 - Data2)/1000)/60).toFixed(2)
-        console.log(this.props.panel)
+        
         this.state = {
             classes: (resultTime > 6) ? "error" : "success",
             status: (resultTime > 6) ? "Не в сети" : "В сети"
@@ -30,7 +30,7 @@ export default class Panel extends Component {
     }
     render() {
         return (
-                <Card style={{width: "20%", height: '30%', minHeight: '20%', minWidth: '40%', margin:'0.6rem'}}>
+                <Card style={{width: "20%", height: '30%', minHeight: '30%', minWidth: '30%', margin:'0.6rem'}}>
                     <CardActionArea>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
@@ -44,7 +44,7 @@ export default class Panel extends Component {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Tooltip title="Delete">
+                        <Tooltip title="Delete" style={{fontSize: 16}}>
                             <Button size="small" color="primary" startIcon={<TheatersIcon/>}>
                                 Контент
                             </Button>

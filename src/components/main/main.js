@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import history from "../../components/customHistory"
 
-import AppHeader from "../header/header"
 import MiniDrawer from "../drawer/drawer"
 
 export default class Main extends Component {

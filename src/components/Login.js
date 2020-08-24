@@ -11,6 +11,12 @@ import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 
 import {MainLoader} from "./loaders/MainLoader"
 
@@ -18,7 +24,7 @@ import Copyright from './Copyright';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh',
+    height: '90vh',
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center'
@@ -46,12 +52,18 @@ const useStyles = makeStyles(theme => ({
 const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge, loading }) => {
   const classes = useStyles();
 
+  const [showPass, setShow] = React.useState(false);
+
+  const HandleShowPassord = () => {
+      setShow(!showPass)
+  }
+
   if (loading) return (
        <MainLoader/>
   )
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container className={classes.root} maxWidth="md">
       <CssBaseline />
       
       <Grid component={Paper} elevation={6} square>
@@ -83,9 +95,18 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               fullWidth
               name="password"
               label="Пароль"
-              type="password"
+              type={showPass? "text" : "password"}
               id="password"
               autoComplete="current-password"
+              InputProps={{
+                startAdornment: (
+                <InputAdornment position="end">
+                    <IconButton onClick={HandleShowPassord}> 
+                        {showPass ? <Visibility/> : <VisibilityOff />}
+                    </IconButton>
+                </InputAdornment>
+                ),
+            }}
               value={password}
               onChange={onPasswordChahge}
             />
@@ -97,22 +118,10 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               className={classes.submit}
             >
               Войти
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Забыли пароль?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  "Нет учетной записи? Регистрация"
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
+            </Button> 
+              
+              <Button>Забыли пароль?</Button>
+           
           </form>
         </div>
       </Grid>

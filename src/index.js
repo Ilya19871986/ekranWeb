@@ -10,7 +10,7 @@ import { AppReducer } from "../src/components/redux/AppReducer"
 const store = createStore(
     AppReducer , compose(
         applyMiddleware(thunk)
-         ,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        //,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 )
 
