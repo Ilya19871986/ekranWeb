@@ -15,7 +15,7 @@ export default class ModalDelUser extends Component {
         super(props)
         this.state = {
             open: this.props.open,
-            removUser: (this.props.user.surname || "") + " " + (this.props.user.surname || "") + "  логин: " + this.props.user.user_name
+            removUser: (this.props.user.surname || "") + " " + (this.props.user.name || "") + "  логин: " + this.props.user.user_name
         }
     }
 

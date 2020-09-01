@@ -116,7 +116,8 @@ export async function updateUser(tmp) {
 }
 
 
-export async function CreateUser(username, password, surname, name, description, adminId, role) {
+export async function CreateUser(username, password, surname, name, description, adminId, organization,  phone, email, town,
+        role) {
     
     let formData = new FormData();
 
@@ -126,7 +127,12 @@ export async function CreateUser(username, password, surname, name, description,
     formData.append("name", name);
     formData.append("description", description);
     formData.append("adminId", adminId);
+    formData.append("organization", organization)
+    formData.append("phone", phone)
+    formData.append("email", email)
+    formData.append("town", town)
     formData.append("role", role);
+    
 
     const result = await fetch(api_address + create_user, {
         method: "POST",

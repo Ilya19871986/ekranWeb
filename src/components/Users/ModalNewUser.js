@@ -22,15 +22,20 @@ export default class ModalNewUser extends Component {
                 pass: "",
                 comment: "",
                 error: "",
+                org: "",
+                town: "",
+                email: "",
+                phone: "",
                 errorRegister: null, 
                 role: "2"
             }
     }
-
+     
     Ok = () => {
         if (this.checkTextField()) {
             this.props.CreateUser(this.state.login, this.state.pass, this.state.surname, 
-                this.state.name, this.state.comment, localStorage.getItem("UserId"), this.state.role)
+                this.state.name, this.state.comment, localStorage.getItem("UserId"),  this.state.org, this.state.phone, this.state.email, this.state.town,
+                this.state.role)
             this.props.func()
         }
     }
@@ -48,6 +53,30 @@ export default class ModalNewUser extends Component {
     changeName = (e) => {
         this.setState({
             name: e.target.value
+        })
+    }
+
+    changeOrg = (e) => {
+        this.setState({
+            org: e.target.value
+        })
+    }
+
+    changePhone = (e) => {
+        this.setState({
+            phone: e.target.value
+        })
+    }
+
+    changeEmail = (e) => {
+        this.setState({
+            email: e.target.value
+        })
+    }
+
+    changeTown = (e) => {
+        this.setState({
+            town: e.target.value
         })
     }
 
@@ -121,14 +150,28 @@ export default class ModalNewUser extends Component {
                                 onChange={this.changeLogin} error={this.state.error !== ""} helperText={this.state.error} />
                         <TextField margin="dense" id="password" label="Пароль" type="text" fullWidth onChange={this.changePass} required/>
                     </div>
+                    <div style={{display: 'flex'}}>
+                        <TextField margin="dense" id="org" label="Организация" type="text" fullWidth onChange={this.changeOrg} />
+                        <TextField margin="dense" id="n" label="Город" type="text" fullWidth onChange={this.changeTown} />
+                    </div>
+
+                    <div style={{display: 'flex'}}>
+                        <TextField margin="dense" id="phone" label="Телефон" type="text" fullWidth onChange={this.changePhone} />
+                        <TextField margin="dense" id="email" label="Почта" type="text" fullWidth onChange={this.changeEmail} />
+                    </div>
+
                     <div>
                         <TextField margin="dense" id="Comment" label="Коментарий" type="text" fullWidth multiline rowsMax={6} onChange={this.changeComment} />
                     </div>
                     <div>
-                        <FormControlLabel
-                            control={<Checkbox checked={this.state.role === "1"? true:false} onChange={this.handleChangeAdmin} />}
+                        {
+                            localStorage.getItem("UserId") === "19" &&
+                            <FormControlLabel
+                            control={<Checkbox checked={this.state.role === "1" ? true:false} onChange={this.handleChangeAdmin} />}
                             label="Создать администратора"
                         />
+                        }
+                        
                     </div>
                     
                 </DialogContent>

@@ -44,8 +44,8 @@ class Users extends Component {
         await this.props.loadUsers()
     }
 
-    createData = (surname, name, login, password, authTime, locked, deleted, description) => {
-        return { surname, name, login, password, authTime, locked, deleted, description}
+    createData = (organization, surname, name, login, password, authTime, locked, deleted, description) => {
+        return { organization, surname, name, login, password, authTime, locked, deleted, description}
     }
 
     handleChangePage = (event, newPage) => {
@@ -63,6 +63,34 @@ class Users extends Component {
 
     ChangeComment = (e, user) => {
         user.description = e.target.value
+        this.setState({
+            flag: !this.state.flag
+        })
+    }
+
+    ChangeOrg = (e, user) => {
+        user.organization = e.target.value
+        this.setState({
+            flag: !this.state.flag
+        })
+    }
+
+    ChangeTown = (e, user) => {
+        user.town = e.target.value
+        this.setState({
+            flag: !this.state.flag
+        })
+    }
+
+    ChangePhone = (e, user) => {
+        user.phone = e.target.value
+        this.setState({
+            flag: !this.state.flag
+        })
+    }
+
+    ChangeEmail = (e, user) => {
+        user.email = e.target.value
         this.setState({
             flag: !this.state.flag
         })
@@ -105,8 +133,8 @@ class Users extends Component {
         await this.props.loadUsers()
     }
 
-    CreateUser = async (username, password, surname, name, description, adminId, role) => {
-        await this.props.createUserAsync(username, password, surname, name, description, adminId, role)
+    CreateUser = async (username, password, surname, name, description, adminId, organization,  phone, email, town, role) => {
+        await this.props.createUserAsync(username, password, surname, name, description, adminId, organization,  phone, email, town, role)
         await this.props.loadUsers()
     }
 
@@ -124,11 +152,16 @@ class Users extends Component {
                         fontSize: '18'
                     }}>
                     <TableRow>
+                        <TableCell style={{ width: '10%' }}  align="center">ОРГАНИЗАЦИЯ</TableCell>
+                        <TableCell style={{ width: '10%' }}  align="center">ГОРОД</TableCell>
                         <TableCell style={{ width: '10%' }}  align="center">ФАМИЛИЯ</TableCell>
                         <TableCell style={{ width: '10%' }} align="center">ИМЯ</TableCell>
                         <TableCell style={{ width: '10%' }} align="center">ЛОГИН</TableCell>
+                        <TableCell style={{ width: '10%' }} align="center">ТЕЛЕФОН</TableCell>
+                        <TableCell style={{ width: '10%' }} align="center">ПОЧТА</TableCell>
                         
                         <TableCell style={{ width: '5%' }} align="center">КОЛ-ВО ПАНЕЛЕЙ</TableCell>
+                        <TableCell style={{ width: '5%' }} align="center">ДАТА РЕГИСТРАЦИИ</TableCell>
                         <TableCell style={{ width: '5%' }} align="center">ПОСЛЕДНЯЯ АКТИВНОСТЬ</TableCell>
                         <TableCell style={{ width: '15%' }} align="center">КОМЕНТАРИЙ</TableCell>
                         <TableCell style={{ width: '4%' }} align="center">БЛОКИРОВКА</TableCell>
@@ -149,11 +182,32 @@ class Users extends Component {
                             .slice(this.state.page * this.state.rowsUsers, this.state.page * this.state.rowsUsers + this.state.rowsUsers)
                             .map((user) => (
                             <TableRow key={user.id} hover>
+                                <TableCell align="center">
+                                <TextField value={user.organization || ""} multiline rowsMax={6} size="small" name={user.organization}
+                                                onChange={(e) => this.ChangeOrg(e, user)}> 
+                                    </TextField>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField value={user.town || ""} multiline rowsMax={6} size="small" name={user.town}
+                                                onChange={(e) => this.ChangeTown(e, user)}> 
+                                    </TextField>
+                                </TableCell>
                                 <TableCell align="center">{user.surname || ""}</TableCell>
                                 <TableCell align="center">{user.name || ""}</TableCell>
                                 <TableCell align="center">{user.user_name}</TableCell>
+                                <TableCell align="center">
+                                    <TextField value={user.phone || ""} multiline rowsMax={6} size="small" name={user.phone}
+                                                onChange={(e) => this.ChangePhone(e, user)}> 
+                                    </TextField>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField value={user.email || ""} multiline rowsMax={6} size="small" name={user.email}
+                                                onChange={(e) => this.ChangeEmail(e, user)}> 
+                                    </TextField>
+                                </TableCell>
                                 
                                 <TableCell align="center">{user.countPanel || 0}</TableCell>
+                                <TableCell align="center">{user.creation_date || 0}</TableCell>
                                 <TableCell align="center">{user.authTime || ""}</TableCell>
                                 <TableCell align="center">
                                     <TextField value={user.description || ""} multiline rowsMax={6} size="small" name={user.user_name}

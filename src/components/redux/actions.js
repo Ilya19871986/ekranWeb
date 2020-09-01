@@ -87,10 +87,11 @@ export function updateUserAsync(tmp) {
     }
 }
 
-export function createUserAsync(username, password, surname, name, description, adminId, role) {
+export function createUserAsync(username, password, surname, name, description, adminId, organization,  phone, email, town, role) {
     return async dispatch => {
         dispatch(showLoader())
-        const response = await CreateUser(username, password, surname, name, description, adminId, role);
+        const response = await CreateUser(username, password, surname, name, description, adminId, organization,  phone, email, town, role);
+        console.log(username, password, surname, name, description, adminId, organization,  phone, email, town, role)
         const data = await response.json()
         dispatch({type: CREATE_USER, payload: data})  
         dispatch(hideLoader())
