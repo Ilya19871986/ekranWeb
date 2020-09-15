@@ -108,7 +108,7 @@ export default class Settings extends Component {
                             <TableRow>
                                 <TableCell><TextField fullWidth label="Текущий пароль" 
                                         InputProps={{
-                                            startAdornment: (
+                                            endAdornment: (
                                             <InputAdornment position="end">
                                                 <IconButton onClick={this.HandleShowPassord1}> 
                                                     {this.state.showPassord1 ? <Visibility/> : <VisibilityOff />}
@@ -123,7 +123,7 @@ export default class Settings extends Component {
                             <TableRow>
                                 <TableCell><TextField fullWidth label="Новый пароль" disabled={!this.state.checkCurPass}  error={this.state.disableNewPass}
                                 InputProps={{
-                                    startAdornment: (
+                                    endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton onClick={this.HandleShowPassord2}> 
                                             {this.state.showPassord2 ? <Visibility/> : <VisibilityOff />}
@@ -137,7 +137,7 @@ export default class Settings extends Component {
                             <TableRow>
                                 <TableCell><TextField fullWidth label="Повторите пароль" disabled={!this.state.checkCurPass}  error={this.state.disableNewPass} 
                                 InputProps={{
-                                    startAdornment: (
+                                    endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton onClick={this.HandleShowPassord3}> 
                                             {this.state.showPassord3 ? <Visibility/> : <VisibilityOff />}

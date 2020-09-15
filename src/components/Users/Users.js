@@ -15,10 +15,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableFooter from '@material-ui/core/TableFooter';
-
+import UserRow from './UserRow'
+import RefreshIcon from '@material-ui/icons/Refresh';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-
+import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -41,6 +42,10 @@ class Users extends Component {
     }
 
     async componentDidMount() {
+        await this.props.loadUsers()
+    }
+
+    handleRefresh = async () => {
         await this.props.loadUsers()
     }
 
@@ -144,36 +149,31 @@ class Users extends Component {
         return (
             <div>
             <TableContainer component={Paper}>
-                <Table stickyHeader aria-label="sticky table" size="small" onChange={this.ChangeTable}>
-                <TableHead  aria-label="customized table" 
-                    style={{
-                        //backgroundColor:'#009688',
-                        color: '#ffff8d',
-                        fontSize: '18'
-                    }}>
+                <Table aria-label="sticky table"  onChange={this.ChangeTable}>
+                <TableHead  aria-label="customized table"  >
                     <TableRow>
-                        <TableCell style={{ width: '10%' }}  align="center">ОРГАНИЗАЦИЯ</TableCell>
-                        <TableCell style={{ width: '10%' }}  align="center">ГОРОД</TableCell>
-                        <TableCell style={{ width: '10%' }}  align="center">ФАМИЛИЯ</TableCell>
-                        <TableCell style={{ width: '10%' }} align="center">ИМЯ</TableCell>
-                        <TableCell style={{ width: '10%' }} align="center">ЛОГИН</TableCell>
-                        <TableCell style={{ width: '10%' }} align="center">ТЕЛЕФОН</TableCell>
-                        <TableCell style={{ width: '10%' }} align="center">ПОЧТА</TableCell>
+                        <TableCell style={{ width: '2%' }}  align="center"></TableCell>
+                        <TableCell style={{ width: '10%' }}  align="center"><Typography variant="h6">Фамилия</Typography></TableCell>
+                        <TableCell style={{ width: '10%' }} align="center"><Typography variant="h6">Имя</Typography></TableCell>
+                        <TableCell style={{ width: '10%' }} align="center"><Typography variant="h6">Логин</Typography></TableCell>
+                        <TableCell style={{ width: '5%' }} align="center"><Typography variant="h6">Кол-во панелей</Typography></TableCell>
+                        <TableCell style={{ width: '5%' }} align="center"><Typography variant="h6">Последняя активность</Typography></TableCell>
+                        <TableCell style={{ width: '4%' }} align="center"><Typography variant="h6">Блокировка</Typography></TableCell>
+                        <TableCell style={{ width: '6%' }} align="center">
+                            <Tooltip title="Обновить" aria-label="add" placement="top-start">
+                                <Fab color="inherit" aria-label="add" onClick={this.handleRefresh}>
+                                    <RefreshIcon />
+                                </Fab>
+                            </Tooltip>
+                        </TableCell> 
                         
-                        <TableCell style={{ width: '5%' }} align="center">КОЛ-ВО ПАНЕЛЕЙ</TableCell>
-                        <TableCell style={{ width: '5%' }} align="center">ДАТА РЕГИСТРАЦИИ</TableCell>
-                        <TableCell style={{ width: '5%' }} align="center">ПОСЛЕДНЯЯ АКТИВНОСТЬ</TableCell>
-                        <TableCell style={{ width: '15%' }} align="center">КОМЕНТАРИЙ</TableCell>
-                        <TableCell style={{ width: '4%' }} align="center">БЛОКИРОВКА</TableCell>
-                        <TableCell style={{ width: '4%' }} align="center">
-                        </TableCell>
                         <TableCell style={{ width: '6%' }} align="center">
                             <Tooltip title="Добавить пользователя" aria-label="add" placement="top-start">
                                 <Fab color="primary" aria-label="add" onClick={this.AddUser}>
                                     <AddIcon />
                                 </Fab>
                             </Tooltip>
-                        </TableCell>
+                        </TableCell> 
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -181,58 +181,16 @@ class Users extends Component {
                         this.props.users
                             .slice(this.state.page * this.state.rowsUsers, this.state.page * this.state.rowsUsers + this.state.rowsUsers)
                             .map((user) => (
-                            <TableRow key={user.id} hover>
-                                <TableCell align="center">
-                                <TextField value={user.organization || ""} multiline rowsMax={6} size="small" name={user.organization}
-                                                onChange={(e) => this.ChangeOrg(e, user)}> 
-                                    </TextField>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <TextField value={user.town || ""} multiline rowsMax={6} size="small" name={user.town}
-                                                onChange={(e) => this.ChangeTown(e, user)}> 
-                                    </TextField>
-                                </TableCell>
-                                <TableCell align="center">{user.surname || ""}</TableCell>
-                                <TableCell align="center">{user.name || ""}</TableCell>
-                                <TableCell align="center">{user.user_name}</TableCell>
-                                <TableCell align="center">
-                                    <TextField value={user.phone || ""} multiline rowsMax={6} size="small" name={user.phone}
-                                                onChange={(e) => this.ChangePhone(e, user)}> 
-                                    </TextField>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <TextField value={user.email || ""} multiline rowsMax={6} size="small" name={user.email}
-                                                onChange={(e) => this.ChangeEmail(e, user)}> 
-                                    </TextField>
-                                </TableCell>
-                                
-                                <TableCell align="center">{user.countPanel || 0}</TableCell>
-                                <TableCell align="center">{user.creation_date || 0}</TableCell>
-                                <TableCell align="center">{user.authTime || ""}</TableCell>
-                                <TableCell align="center">
-                                    <TextField value={user.description || ""} multiline rowsMax={6} size="small" name={user.user_name}
-                                                onChange={(e) => this.ChangeComment(e, user)}> 
-                                    </TextField>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <Tooltip title="Временно заблокировать пользователя" placement="top-start">
-                                        <Checkbox
-                                            checked={user.locked}
-                                            onChange={(e) => this.changeLocked(e, user.id)}
-                                        />
-                                    </Tooltip>
-                                </TableCell>
-                                <TableCell align="center">  
-                                    <Tooltip title="Удалить пользователя" placement="top-start">
-                                        <Fab color="secondary" size="small" onClick={(e) =>  this.Delete(e, user.id)}><DeleteIcon /></Fab>
-                                    </Tooltip>
-                                </TableCell>
-                                <TableCell align="center">   
-                                    <Tooltip title="Сохранить комментарий" placement="top-start"> 
-                                        <Fab  color="inherit" size="small" onClick={(e) =>  this.Save(e, user.id)}><SaveIcon /></Fab>
-                                    </Tooltip>
-                                </TableCell>
-                            </TableRow>
+                                <UserRow key ={user.id} user = {user} 
+                                    changeLocked = {this.changeLocked}
+                                    Delete = {this.Delete}
+                                    Save = {this.Save}
+                                    ChangeOrg = {this.ChangeOrg}
+                                    ChangeTown = {this.ChangeTown}
+                                    ChangePhone = {this.ChangePhone}
+                                    ChangeEmail = {this.ChangeEmail}
+                                    ChangeComment = {this.ChangeComment}
+                                />
                         ))
                     }
                 </TableBody>

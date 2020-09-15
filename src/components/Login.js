@@ -99,7 +99,7 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               id="password"
               autoComplete="current-password"
               InputProps={{
-                startAdornment: (
+                endAdornment: (
                 <InputAdornment position="end">
                     <IconButton onClick={HandleShowPassord}> 
                         {showPass ? <Visibility/> : <VisibilityOff />}
