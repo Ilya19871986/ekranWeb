@@ -46,7 +46,7 @@ class WelcomePage extends React.Component {
     }
     else
     return(
-      <div>
+      <div >
         <Login 
           onSigninSubmit={this.onSigninSubmit} 
           loading={this.props.showLoader}

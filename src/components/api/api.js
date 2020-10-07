@@ -68,6 +68,8 @@ export async function getRole(username, password) {
     localStorage.setItem("role", data.role);
     localStorage.setItem("UserId", data.id);
     localStorage.setItem("UserFolder", data.working_folder);
+    localStorage.setItem("surname", data.surname);
+    localStorage.setItem("name", data.name);
  
     switch (data.role) {
         case "1": localStorage.setItem("RoleName", "Администратор"); break;

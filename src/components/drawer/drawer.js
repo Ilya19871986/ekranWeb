@@ -31,13 +31,18 @@ import Program from '../Program/Program'
 import Settings from '../Settings/Settings'
 import Users from '../Users/Users'
 import WelcomePage from '../WelcomePage';
+import GroupPanels from '../GroupPanel/GroupPanels'
+
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
 
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -97,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: 'navy',
-  }
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 export default function MiniDrawer() {
@@ -116,6 +124,9 @@ export default function MiniDrawer() {
         localStorage.removeItem('UserId');
         localStorage.removeItem('UserFolder');
         localStorage.removeItem('RoleName');    
+        localStorage.removeItem('surname');
+        localStorage.removeItem('name');
+        localStorage.removeItem('password');
     };
 
   }
@@ -132,27 +143,20 @@ export default function MiniDrawer() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
+      <AppBar position="fixed"  className={clsx(classes.appBar, {[classes.appBarShift]: open,  })}  >
         <Toolbar>
-          <IconButton
-            color="inherit" 
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
+          <IconButton color="inherit" aria-label="open drawer"  onClick={handleDrawerOpen} edge="start"  className={clsx(classes.menuButton, {[classes.hide]: open,})}>
             <MenuIcon fontSize={"large"}/>
           </IconButton>
-          <Typography variant="h6" noWrap>
-            ЭКРАН ОНЛАЙН
-          </Typography>
+          <Typography variant="h6" noWrap className={clsx(classes.title)}>ЭКРАН ОНЛАЙН</Typography>
+            <IconButton 
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+            <AccountCircle />
+          </IconButton>{localStorage.getItem('surname') + ' ' + localStorage.getItem('name')}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -196,6 +200,18 @@ export default function MiniDrawer() {
           >
             <ListItemIcon className={classes.icon}><AddToQueueIcon fontSize={"large"} /> </ListItemIcon>
             <ListItemText primary={'Мои панели'} />
+            </ListItem>
+          }
+
+          {
+            localStorage.getItem("role") === "2" &&
+            <ListItem  
+            button 
+            selected={selectedIndex === 7}
+            onClick={(event) => handleListItemClick(event, 7) }
+          >
+            <ListItemIcon className={classes.icon}><GroupWorkIcon fontSize={"large"} /> </ListItemIcon>
+            <ListItemText primary={'Группы панелей'} />
             </ListItem>
           }
           
@@ -259,6 +275,7 @@ export default function MiniDrawer() {
           {selectedIndex === 3 && <Program/> }
           {selectedIndex === 4 && <Settings/> }
           {selectedIndex === 5 && <Users/> }
+          {selectedIndex === 7 && <GroupPanels/> }
       </main>
     </div>
   );

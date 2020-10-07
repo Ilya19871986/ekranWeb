@@ -24,10 +24,11 @@ import Copyright from './Copyright';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '90vh',
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center'
+    display: "flex",
+    height: '15%',
+    width: '450px',
+    marginLeft: "35%",
+    marginTop: "10%"
   },
   
   paper: {
