@@ -14,7 +14,14 @@ import { auth,
     save_user,
     create_user,
     delete_user,
-    get_content_type
+    get_content_type,
+    getMyGroup,
+    createGroup,
+    deleteGroup,
+    chanegNameCommentGroup,
+    getPanelsInGroup,
+    getPanelsNoGroup,
+    setGroup
     } from "../api/api_path"
 
 // аутентификация
@@ -280,6 +287,97 @@ export async function changePanel(id, run_text, time_vip, address, newName, Only
 // сменить пароль
 export async function changePassword(user_id, newPassword) {
     const response = await fetch(api_address + changePass + "?id=" + user_id + "&newpassword=" + newPassword, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить список групп пользователя
+export async function getListGroupAsync(user_id) {
+        
+    const response = await fetch(api_address + getMyGroup + "?user_id=" + user_id, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// создать группу
+export async function createGroupPanesAsync(user_id, group_name, comment) {
+    
+    const response = await fetch(api_address + createGroup + "?GroupName=" + group_name + "&comment=" + comment + "&user_id=" + user_id, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// удалить группу
+export async function deleteGroupAsync(id) {
+    
+    const response = await fetch(api_address + deleteGroup + "?id=" + id, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// изменить название и комментарий группы
+export async function changeNameGroupAsync(id, name, comment) {
+    
+    const response = await fetch(api_address + chanegNameCommentGroup + "?id=" + id + "&name=" + name + "&comment=" + comment, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить список панелей в группе
+export async function getListPanelInGroupAsync(user_id, group_id) {
+        
+    const response = await fetch(api_address + getPanelsInGroup + "?user_id=" + user_id + "&group_id=" + group_id, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить список панелей без группы
+export async function getListPanelNoGroupAsync(user_id) {
+        
+    const response = await fetch(api_address + getPanelsNoGroup + "?user_id=" + user_id , {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// изменить название и комментарий группы
+export async function setGroupAsync(panel_id, group_id) {
+    
+    const response = await fetch(api_address + setGroup + "?panel_id=" + panel_id + "&group_id=" + group_id, {
         method: "GET",
         headers: {
             "Accept": "application/json",

@@ -11,10 +11,17 @@ import {
     DELETE_PANEL,
     HIDE_LOADER_CONTENT,
     SHOW_LOADER_CONTENT,
-    LOAD_CONTENT
+    LOAD_CONTENT,
+    GET_LIST_GROUP_PANELS,
+    SHOW_LOADER_GROUPS,
+    HIDE_LOADER_GROUPS,
+    GET_LIST_PANELS_IN_GROUP,
+    SHOW_LOADER_PANELS_IN_GROUP,
+    HIDE_LOADER_PANELS_IN_GROUP,
+    GET_LIST_PANELS_NO_GROUP
 } from "./const"
 import { getToken, getRole, getListPanels, getListUsers, updateUser, CreateUser, DeleteUser, deletePanel,
-        getContent, getContentType
+        getContent, getContentType, getListGroupAsync, getListPanelInGroupAsync, getListPanelNoGroupAsync
  } from "../api/api"
 
 
@@ -39,6 +46,30 @@ export function showLoaderContent() {
 export function hideLoaderContent() {
     return {
         type: HIDE_LOADER_CONTENT
+    }
+}
+
+export function showLoaderGroup() {
+    return {
+        type: SHOW_LOADER_GROUPS
+    }
+}
+
+export function hideLoaderGroup() {
+    return {
+        type: HIDE_LOADER_GROUPS
+    }
+}
+
+export function showLoaderPanelsInGroup() {
+    return {
+        type: SHOW_LOADER_PANELS_IN_GROUP
+    }
+}
+
+export function hideLoaderPanelsInGroup() {
+    return {
+        type: HIDE_LOADER_PANELS_IN_GROUP
     }
 }
 
@@ -125,5 +156,30 @@ export function loadContentType(id, type) {
         const data = await response.json()
         dispatch({type: LOAD_CONTENT, payload: data}) 
         dispatch(hideLoaderContent() )
+    }
+}
+
+// загрузить список групп
+export function loadPanelsGroup(user_id) {
+    return async dispatch => {
+        dispatch(showLoaderGroup())
+        const response = await getListGroupAsync(user_id)
+        const data = await response.json()
+        dispatch({type: GET_LIST_GROUP_PANELS, payload: data}) 
+        dispatch(hideLoaderGroup())
+    }
+}
+
+// загрузить список панелей состоящих и не состоящих в группе
+export function loadPanelsInGroup(user_id, group_id) {
+    return async dispatch => {
+        dispatch(showLoaderPanelsInGroup())
+        const responseInGroup = await getListPanelInGroupAsync(user_id, group_id)
+        const data1 = await responseInGroup.json()
+        const responseNoGroup = await getListPanelNoGroupAsync(user_id)
+        const data2 = await responseNoGroup.json()
+        dispatch({type: GET_LIST_PANELS_IN_GROUP, payload: data1}) 
+        dispatch({type: GET_LIST_PANELS_NO_GROUP, payload: data2}) 
+        dispatch(hideLoaderPanelsInGroup())
     }
 }

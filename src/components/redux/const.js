@@ -13,3 +13,14 @@ export const LOAD_USERS = "LOAD_USERS"
 export const SAVE_USER = "SAVE_USER"
 export const CREATE_USER = "CREATE_USER"
 export const DELETE_USER = "DELETE_USER"
+
+// группы панелей
+export const GET_LIST_GROUP_PANELS = "GET_LIST_GROUP_PANELS"
+export const SHOW_LOADER_GROUPS = "SHOW_LOADER_GROUPS"
+export const HIDE_LOADER_GROUPS = "HIDE_LOADER_GROUPS"
+
+// панели состоящие и не состоящие в группах
+export const GET_LIST_PANELS_IN_GROUP = "GET_LIST_PANELS_IN_GROUP"
+export const GET_LIST_PANELS_NO_GROUP = "GET_LIST_PANELS_NO_GROUP"
+export const SHOW_LOADER_PANELS_IN_GROUP = "SHOW_LOADER_PANELS_IN_GROUP"
+export const HIDE_LOADER_PANELS_IN_GROUP = "HIDE_LOADER_PANELS_IN_GROUP"

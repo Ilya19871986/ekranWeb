@@ -1,4 +1,5 @@
 export const api_address = "http://193.124.58.144:4444"
+//export const api_address = "http://localhost:52785"
 
 export const auth = "/token"
 export const role = "/api/getrole"
@@ -16,3 +17,10 @@ export const save_user = "/api/change_user"
 export const create_user = "/api/create_user"
 export const delete_user = "/api/delete_user"
 export const get_content_type = "/content/GetContentType"
+export const getMyGroup = "/panel/getGroupPanels";
+export const createGroup = "/panel/createGroup"
+export const deleteGroup = "/panel/deleteGroup"
+export const chanegNameCommentGroup = "/panel/change"
+export const getPanelsInGroup = "/panel/getPanelsInGroup" // int user_id, int group_id
+export const getPanelsNoGroup = "/panel/getPanelsNoGroup" // int user_id
+export const setGroup = "/panel/setGroup" // int panel_id, int group_id
