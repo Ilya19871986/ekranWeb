@@ -24,3 +24,5 @@ export const chanegNameCommentGroup = "/panel/change"
 export const getPanelsInGroup = "/panel/getPanelsInGroup" // int user_id, int group_id
 export const getPanelsNoGroup = "/panel/getPanelsNoGroup" // int user_id
 export const setGroup = "/panel/setGroup" // int panel_id, int group_id
+export const post_file_group = "/content/AddFileGroup"
+export const getFileGroup = "/content/GetContentInGroup"

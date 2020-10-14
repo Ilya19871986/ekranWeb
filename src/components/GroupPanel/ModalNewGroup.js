@@ -49,12 +49,12 @@ export default class ModalNewGroup extends Component {
                 <DialogTitle >{"Добавить группу панелей"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {
-                                this.state.save && <LinearProgress />
-                            }
                             <TextField label="Название группы" variant="outlined" style = {{ width: "400px"}} onChange = { this.changeName } />
                             <br/><br/>
                             <TextField label="Коментарий" variant="outlined" style = {{ width: "400px"}} onChange = { this.changeComment }/>
+                            {
+                                this.state.save && <LinearProgress />
+                            }
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

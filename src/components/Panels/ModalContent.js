@@ -277,7 +277,7 @@ class ModalContent extends Component {
                                 <TableCell style={{ width: '4%' }} align="center">СТАТУС</TableCell>
                                 <TableCell style={{ width: '10%' }} align="center">Название файла</TableCell>
                                 <TableCell style={{ width: '10%' }} align="center">Размер файла</TableCell>
-                                <TableCell style={{ width: '10%' }} align="center">Авто удаление</TableCell>
+                                <TableCell style={{ width: '10%' }} align="center">Автоудаление</TableCell>
                                 <TableCell style={{ width: '5%' }} align="center">
                                     <Tooltip title="Обновить" aria-label="add" placement="top-start">
                                         <Fab size="medium" aria-label="add" onClick={this.Reload}>

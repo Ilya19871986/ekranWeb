@@ -18,10 +18,14 @@ import {
     GET_LIST_PANELS_IN_GROUP,
     SHOW_LOADER_PANELS_IN_GROUP,
     HIDE_LOADER_PANELS_IN_GROUP,
-    GET_LIST_PANELS_NO_GROUP
+    GET_LIST_PANELS_NO_GROUP,
+    GET_CONTENT_IN_GROUP,
+    SHOW_LOADER_CONTENT_IN_GROUP,
+    HIDE_LOADER_CONTENT_IN_GROUP
 } from "./const"
 import { getToken, getRole, getListPanels, getListUsers, updateUser, CreateUser, DeleteUser, deletePanel,
-        getContent, getContentType, getListGroupAsync, getListPanelInGroupAsync, getListPanelNoGroupAsync
+        getContent, getContentType, getListGroupAsync, getListPanelInGroupAsync, getListPanelNoGroupAsync,
+        getListContentInGroupAsync
  } from "../api/api"
 
 
@@ -70,6 +74,18 @@ export function showLoaderPanelsInGroup() {
 export function hideLoaderPanelsInGroup() {
     return {
         type: HIDE_LOADER_PANELS_IN_GROUP
+    }
+}
+
+export function showLoaderContentInGroup() {
+    return {
+        type: SHOW_LOADER_CONTENT_IN_GROUP
+    }
+}
+
+export function hideLoaderContentInGroup() {
+    return {
+        type: HIDE_LOADER_CONTENT_IN_GROUP
     }
 }
 
@@ -181,5 +197,16 @@ export function loadPanelsInGroup(user_id, group_id) {
         dispatch({type: GET_LIST_PANELS_IN_GROUP, payload: data1}) 
         dispatch({type: GET_LIST_PANELS_NO_GROUP, payload: data2}) 
         dispatch(hideLoaderPanelsInGroup())
+    }
+}
+
+// получить контент текущей группы
+export function loadContentCurrentGroup(group_id) {
+    return async dispatch => {
+        dispatch(showLoaderContentInGroup())
+        const response = await getListContentInGroupAsync(group_id)
+        const data = await response.json()
+        dispatch({type: GET_CONTENT_IN_GROUP, payload: data}) 
+        dispatch(hideLoaderContentInGroup())
     }
 }

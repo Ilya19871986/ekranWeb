@@ -1,10 +1,13 @@
 import { LOAD_PANELS, LOAD_CONTENT, SHOW_LOADER, HIDE_LOADER, DELETE_PANEL, SHOW_LOADER_CONTENT, HIDE_LOADER_CONTENT,
     GET_LIST_GROUP_PANELS, SHOW_LOADER_GROUPS, HIDE_LOADER_GROUPS, GET_LIST_PANELS_IN_GROUP, SHOW_LOADER_PANELS_IN_GROUP,
-    HIDE_LOADER_PANELS_IN_GROUP, GET_LIST_PANELS_NO_GROUP } from "./const" 
+    HIDE_LOADER_PANELS_IN_GROUP, GET_LIST_PANELS_NO_GROUP, GET_CONTENT_IN_GROUP, SHOW_LOADER_CONTENT_IN_GROUP,
+    HIDE_LOADER_CONTENT_IN_GROUP } from "./const" 
 
 const initState = {
     panels: [],
     content: [],
+    contentCurrentGroup: [], // контент загруженный в текущую группу
+    showLoaderContentGroup: false, // лоадер загрузки контента текущей группы
     panelsGroup: [],
     panelsInGroup: [],
     panelsNoGroup: [],
@@ -41,6 +44,14 @@ export const PanelsReducer = (state = initState, action) => {
             return {...state, showLoaderInGroup: true}
         case HIDE_LOADER_PANELS_IN_GROUP: 
             return {...state, showLoaderInGroup: false}
+
+        // контент в группах
+        case GET_CONTENT_IN_GROUP: 
+            return {...state, contentCurrentGroupels: action.payload}
+        case SHOW_LOADER_CONTENT_IN_GROUP: 
+            return {...state, showLoaderContentGroup: true}
+        case HIDE_LOADER_CONTENT_IN_GROUP: 
+            return {...state, showLoaderContentGroup: false}
 
         default: return state
     }

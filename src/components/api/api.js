@@ -21,7 +21,9 @@ import { auth,
     chanegNameCommentGroup,
     getPanelsInGroup,
     getPanelsNoGroup,
-    setGroup
+    setGroup, 
+    post_file_group,
+    getFileGroup
     } from "../api/api_path"
 
 // аутентификация
@@ -378,6 +380,41 @@ export async function getListPanelNoGroupAsync(user_id) {
 export async function setGroupAsync(panel_id, group_id) {
     
     const response = await fetch(api_address + setGroup + "?panel_id=" + panel_id + "&group_id=" + group_id, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// отправка файла на сервер
+export async function postFileGroup(file, group_id, type) {
+    
+    const formData = new FormData();
+    
+    formData.append('uploadedFile', file)
+    formData.append('path', localStorage.getItem("UserFolder"))
+    formData.append('group_id', group_id)
+    formData.append('user_id', localStorage.getItem("UserId"))
+    formData.append('type_content', type)
+   
+    await fetch (api_address + post_file_group,
+        {
+            method: "POST",
+            headers: {"Accept": "multipart/form-data", 
+                      "Authorization": "Bearer " + localStorage.getItem("token")},
+            body: formData
+    }).then(
+        res => {return res.statusText}
+    )
+} 
+
+// получить список групп пользователя
+export async function getListContentInGroupAsync(GroupId) {
+        
+    const response = await fetch(api_address + getFileGroup + "?GroupId=" + GroupId, {
         method: "GET",
         headers: {
             "Accept": "application/json",

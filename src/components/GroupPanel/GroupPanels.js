@@ -16,6 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { GroupLoader } from "../loaders/MainLoader"
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 
 import { getListGroupAsync } from "../api/api"
 import { connect } from "react-redux"
@@ -24,6 +25,7 @@ import { loadPanelsGroup } from "../redux/actions"
 import ModalNewGroup from "./ModalNewGroup"
 import ModalDeleteGroup from "./ModalDeleteGroup"
 import ModalEditGroup from "./ModalEditGroup"
+import ModalContentGroup from "./ModalContentGroup"
 
 class GroupPanels extends Component {
     constructor(props){
@@ -33,6 +35,7 @@ class GroupPanels extends Component {
             openModalNewGroup: false,
             openModalDeleteGroup: false,
             openModalEditGroup: false,
+            openModalContentGroup: false,
             selectedGroup: "",
         }
     }
@@ -80,6 +83,11 @@ class GroupPanels extends Component {
         this.componentDidMount()
     }
 
+    ModalContent = (e, group) => {
+        this.setState({selectedGroup: group})
+        this.setState({openModalContentGroup: !this.state.openModalContentGroup})
+    }
+
     render() {
         if (this.props.showLoaderGroup) {
             return <GroupLoader />
@@ -90,11 +98,12 @@ class GroupPanels extends Component {
                     <Table stickyHeader aria-label="sticky table" size="small">
                         <TableHead  aria-label="customized table" >
                             <TableRow>
-                                <TableCell style={{ width: '30%' }}  align="center">ГРУППА</TableCell>
-                                <TableCell style={{ width: '30%' }}  align="center">КОЛИЧЕСТВО ПАНЕЛЕЙ</TableCell>
-                                <TableCell style={{ width: '30%' }}  align="center">КОМЕНТАРИЙ</TableCell>
-                                <TableCell style={{ width: '30%' }}  align="center"></TableCell>
-                                <TableCell style={{ width: '30%' }}  align="center">
+                                <TableCell style={{ width: '34%' }}  align="center">ГРУППА</TableCell>
+                                <TableCell style={{ width: '15%' }}  align="center">КОЛИЧЕСТВО ПАНЕЛЕЙ</TableCell>
+                                <TableCell style={{ width: '35%' }}  align="center">КОМЕНТАРИЙ</TableCell>
+                                <TableCell style={{ width: '10%' }}  align="center"></TableCell>
+                                <TableCell style={{ width: '5%' }}  align="center"></TableCell>
+                                <TableCell style={{ width: '5%' }}  align="center">
                                     <Tooltip title="Создать группу панелей" aria-label="add" placement="top-start">
                                         <Fab color="primary" aria-label="add" onClick={this.OpenModalNewGroup}>
                                             <AddIcon />
@@ -110,12 +119,17 @@ class GroupPanels extends Component {
                                         <TableCell align="center">{group.group_name}</TableCell>
                                         <TableCell align="center">{group.count_panel}</TableCell>
                                         <TableCell align="center">{group.comment}</TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
+                                            <Tooltip title="Файлы группы" placement="top-start">
+                                                <Fab color ="primary" size="small" onClick = {(e) => {this.ModalContent(e, group)}}><VideoLibraryIcon/></Fab>
+                                            </Tooltip>
+                                        </TableCell>
+                                        <TableCell align="center"> 
                                             <Tooltip title="Изменить группу" placement="top-start">
                                                 <Fab size="small" onClick = {(e) => {this.openEditGroup(e, group)}}><EditIcon/></Fab>
                                             </Tooltip>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             <Tooltip title="Удалить группу" placement="top-start">
                                                 <Fab color="secondary" size="small" onClick = {(e) => this.openDeleteGroup(e, group)}><DeleteIcon/></Fab>
                                             </Tooltip>
@@ -151,6 +165,14 @@ class GroupPanels extends Component {
                         selectedGroup = {this.state.selectedGroup}
                         CancelEditGroup = {this.CancelEditGroup}
                         SaveEditGroup = {this.SaveEditGroup}
+                    />
+                }
+                {
+                    this.state.openModalContentGroup &&
+                    <ModalContentGroup
+                        openModalContentGroup = {this.state.openModalContentGroup}
+                        selectedGroup = {this.state.selectedGroup}
+                        ModalContent = {this.ModalContent}
                     />
                 }
 
