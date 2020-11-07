@@ -16,8 +16,13 @@ import { Divider } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { isThisWeek } from 'date-fns';
-import { changePanel } from "../api/api"
+import { changePanel, changeOrientationAsync } from "../api/api"
 import Tooltip from '@material-ui/core/Tooltip';
+
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 export default class ModalSettings extends Component {
     constructor(props) {
@@ -28,7 +33,8 @@ export default class ModalSettings extends Component {
             onlyVip : this.props.panel.only_vip === 1 ? true: false,
             timeVip: this.props.panel.time_vip,
             comment: this.props.panel.address, 
-            saveChange: false
+            saveChange: false,
+            winOrientation: this.props.panel.orientation + "",
         }
     }
 
@@ -47,8 +53,14 @@ export default class ModalSettings extends Component {
             saveChange: true
         })
        
-            await changePanel(this.props.panel.id, (this.state.vert ? 1 : 0), this.state.timeVip, this.state.comment, "", (this.state.onlyVip ? 1 : 0))
-         
+        await changePanel(this.props.panel.id, (this.state.vert ? 1 : 0), this.state.timeVip, this.state.comment, "", (this.state.onlyVip ? 1 : 0))
+
+        let version = this.props.panel.player_version[0] + this.props.panel.player_version[1]
+        if (version == "1." || version == "2.") {
+            console.log(this.props.panel.id, this.state.winOrientation)
+            await changeOrientationAsync(this.props.panel.id, this.state.winOrientation)
+        }
+       
         this.setState({
             saveChange: false
         })
@@ -71,6 +83,11 @@ export default class ModalSettings extends Component {
         this.setState({
             comment: e.target.value
         })
+    }
+
+    handleChangeOrientation = (e) => {
+        console.log(e.target.value)
+        this.setState({winOrientation: e.target.value})
     }
 
     render() {
@@ -104,7 +121,7 @@ export default class ModalSettings extends Component {
                                         />
                             <br/><br/>
                             {
-                                this.props.panel.player_version == "3.0.0" &&
+                                (this.props.panel.player_version == "3.0.0" || this.props.panel.player_version == "3.0.1") &&
                                 <div>
                                     <TextField style={{width: "50%", alignContent: "center"}} variant="outlined" 
                                     label="Время показа изображений" size="small" value={this.state.timeVip} onChange={this.handleChangeTimeVip} />
@@ -118,7 +135,7 @@ export default class ModalSettings extends Component {
                                 </div>
                             }
                             {
-                                this.props.panel.player_version !== "3.0.0" && 
+                                (this.props.panel.player_version !== "3.0.0" && this.props.panel.player_version !== "3.0.1" )&& 
                                 <div>
                                     <TextField style={{width: "50%", alignContent: "center"}} variant="outlined" 
                                     label="Запускать ВИП каждые" size="small" value={this.props.panel.time_vip}/>
@@ -127,10 +144,24 @@ export default class ModalSettings extends Component {
                                         control={<Checkbox checked={this.state.vert} onChange={this.handleChange} />}
                                         label="Бегущая строка"
                                     />
+                                    {/*
                                      <FormControlLabel
                                         control={<Checkbox checked={this.state.onlyVip} onChange={this.handleChangeVip} />}
                                         label="Запускать только ВИП"
                                     />
+                                    */}
+                                    <br/><br/>
+                                    <div>
+                                    <Tooltip title="Ориентация изменится после перезагрузки плеера" placement="top-start"> 
+                                        <FormControl component="fieldset">
+                                        <FormLabel component="legend">Ориентация экрана</FormLabel>
+                                        <RadioGroup value={this.state.winOrientation} onChange={this.handleChangeOrientation}>
+                                            <FormControlLabel value="0" control={<Radio />} label="Поворот 270*" />
+                                            <FormControlLabel value="1" control={<Radio />} label="Поворот 90*" />
+                                        </RadioGroup>
+                                        </FormControl>
+                                    </Tooltip>
+                                    </div>
                                 </div>
                             }
                             

@@ -53,7 +53,7 @@ class ModalContent extends Component {
     }
 
     async componentDidMount() {
-        if (this.props.panel.player_version === "3.0.0") {
+        if (this.props.panel.player_version == "3.0.0" || this.props.panel.player_version == "3.0.1") {
             await this.props.loadContentType(this.props.panel.id, 4)
             this.setState({
                 typeContent: 4
@@ -100,11 +100,10 @@ class ModalContent extends Component {
         this.setState({
             fileDate: e.target.value
         })
-        
-    }
+            }
 
     Reload = async () => {
-        if (this.props.panel.player_version === "3.0.0") {
+        if (this.props.panel.player_version == "3.0.0" || this.props.panel.player_version == "3.0.1") {
             await this.props.loadContentType(this.props.panel.id, 4)
             this.setState({
                 typeContent: 4
@@ -255,7 +254,7 @@ class ModalContent extends Component {
                     <DialogContent>
 
                     {
-                        this.props.panel.player_version !== "3.0.0" &&
+                        (this.props.panel.player_version != "3.0.0" && this.props.panel.player_version != "3.0.1") &&
                         <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
                             <Button color={this.state.buttonStyleAkcii} onClick={this.Akcii}>Акции</Button>
                             <Button color={this.state.buttonStyleAfisha} onClick={this.Afisha}>Афиша</Button>

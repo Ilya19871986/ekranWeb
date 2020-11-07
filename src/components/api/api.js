@@ -23,7 +23,13 @@ import { auth,
     getPanelsNoGroup,
     setGroup, 
     post_file_group,
-    getFileGroup
+    getFileGroup,
+    changeAutoDelete,
+    deleteFileGroup,
+    getStatusFileInPanel, 
+    changeMyData,
+    GetMyData,
+    changeOrient
     } from "../api/api_path"
 
 // аутентификация
@@ -287,8 +293,8 @@ export async function changePanel(id, run_text, time_vip, address, newName, Only
 }
 
 // сменить пароль
-export async function changePassword(user_id, newPassword) {
-    const response = await fetch(api_address + changePass + "?id=" + user_id + "&newpassword=" + newPassword, {
+export async function changePassword(user_id, newPassword, oldpassword) {
+    const response = await fetch(api_address + changePass + "?id=" + user_id + "&newpassword=" + newPassword +" &oldpassword=" + oldpassword, {
         method: "GET",
         headers: {
             "Accept": "application/json",
@@ -415,6 +421,84 @@ export async function postFileGroup(file, group_id, type) {
 export async function getListContentInGroupAsync(GroupId) {
         
     const response = await fetch(api_address + getFileGroup + "?GroupId=" + GroupId, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// изменить время автоудаления в группе
+export async function changeTimeDeleteAsync(GroupId, FileName, newDate) {
+        
+    const response = await fetch(api_address + changeAutoDelete + "?GroupId=" + GroupId + "&FileName=" + FileName + "&newDate=" + newDate, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// удалить файл из группы
+export async function deleteFileGroupAsync(GroupId, FileName) {
+        
+    const response = await fetch(api_address + deleteFileGroup + "?GroupId=" + GroupId + "&FileName=" + FileName, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить статус файла загруженного в группу
+export async function getStatusFileInGroupAsync(GroupId, FileName) {
+        
+    const response = await fetch(api_address + getStatusFileInPanel + "?GroupId=" + GroupId + "&FileName=" + FileName, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// изменить мои данные
+export async function changeMyDataAsync(user_id, name, surname, phone, email, town, org) {
+    const response = await fetch(api_address + changeMyData + "?UserId=" + user_id + "&Name=" + name + 
+        "&Surname=" + surname + "&Phone=" + phone + "&Email=" + email + "&Town=" + town + "&org=" + org, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить мои данные
+export async function getMyDataAsync(user_id) {
+        
+    const response = await fetch(api_address + GetMyData + "?UserId=" + user_id , {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
+    return response;
+}
+
+// получить мои данные
+export async function changeOrientationAsync(panel_id, ori) {
+        
+    const response = await fetch(api_address + changeOrient + "?panel_id=" + panel_id + "&orientation=" + ori , {
         method: "GET",
         headers: {
             "Accept": "application/json",

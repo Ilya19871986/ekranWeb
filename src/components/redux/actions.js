@@ -21,11 +21,17 @@ import {
     GET_LIST_PANELS_NO_GROUP,
     GET_CONTENT_IN_GROUP,
     SHOW_LOADER_CONTENT_IN_GROUP,
-    HIDE_LOADER_CONTENT_IN_GROUP
+    HIDE_LOADER_CONTENT_IN_GROUP,
+    GET_STATUS_FILE_IN_GROUP,
+    SHOW_LOADE_STATUS_FILE_IN_GROUP,
+    HIDE_LOADE_STATUS_FILE_IN_GROUP,
+    GET_MY_DATA,
+    SHOW_LOADER_MY_DATA,
+    HIDE_LOADER_MY_DATA
 } from "./const"
 import { getToken, getRole, getListPanels, getListUsers, updateUser, CreateUser, DeleteUser, deletePanel,
         getContent, getContentType, getListGroupAsync, getListPanelInGroupAsync, getListPanelNoGroupAsync,
-        getListContentInGroupAsync
+        getListContentInGroupAsync, getStatusFileInGroupAsync, getMyDataAsync
  } from "../api/api"
 
 
@@ -86,6 +92,30 @@ export function showLoaderContentInGroup() {
 export function hideLoaderContentInGroup() {
     return {
         type: HIDE_LOADER_CONTENT_IN_GROUP
+    }
+}
+
+export function showLoaderStatusInGroup() {
+    return {
+        type: SHOW_LOADE_STATUS_FILE_IN_GROUP
+    }
+}
+
+export function hideLoaderStatusInGroup() {
+    return {
+        type: HIDE_LOADE_STATUS_FILE_IN_GROUP
+    }
+}
+
+export function showLoaderMyData() {
+    return {
+        type: SHOW_LOADER_MY_DATA
+    }
+}
+
+export function hideLoaderMyData() {
+    return {
+        type: HIDE_LOADER_MY_DATA
     }
 }
 
@@ -208,5 +238,28 @@ export function loadContentCurrentGroup(group_id) {
         const data = await response.json()
         dispatch({type: GET_CONTENT_IN_GROUP, payload: data}) 
         dispatch(hideLoaderContentInGroup())
+    }
+}
+
+// получить статус файла, загруженного в группу, на панелях
+export function getStatusFileInPanelGroup(group_id, file_name) {
+    return async dispatch => {
+        dispatch(showLoaderStatusInGroup())
+        const response = await getStatusFileInGroupAsync(group_id, file_name)
+        const data = await response.json()
+        dispatch({type: GET_STATUS_FILE_IN_GROUP, payload: data}) 
+        dispatch(hideLoaderStatusInGroup())
+    }
+}
+
+// получить статус файла, загруженного в группу, на панелях
+export function getMyData(user_id) {
+    return async dispatch => {
+        dispatch(showLoaderMyData())
+        console.log("mydata")
+        const response = await getMyDataAsync(user_id)
+        const data = await response.json()
+        dispatch({type: GET_MY_DATA, payload: data}) 
+        dispatch(hideLoaderMyData())
     }
 }

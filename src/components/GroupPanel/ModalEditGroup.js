@@ -15,6 +15,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableFooter from '@material-ui/core/TableFooter';
 
 import { connect } from "react-redux"
 import { loadPanelsInGroup } from "../redux/actions"
@@ -45,6 +47,12 @@ class ModalEditGroup extends Component {
             comment: this.props.selectedGroup.comment,
             change: false,
             tab: '1',
+
+            rowsPanels: 5,
+            page: 0,
+
+            rowsPanels2: 5,
+            page2: 0,
         }
 
     }
@@ -88,6 +96,32 @@ class ModalEditGroup extends Component {
 
     handleChangeTab = (event, newValue) => {
         this.setState({tab: newValue})
+    }
+
+    handleChangePage = (event, newPage) => {
+        this.setState({
+            page: newPage
+        })
+    }
+
+    handleChangeRowsPerPage = (e) => {
+        this.setState({
+            rowsPanels: e.target.value,
+            page: 0
+        })
+    }
+
+    handleChangePage2 = (event, newPage) => {
+        this.setState({
+            page: newPage
+        })
+    }
+
+    handleChangeRowsPerPage2 = (e) => {
+        this.setState({
+            rowsPanels: e.target.value,
+            page: 0
+        })
     }
 
     render() {
@@ -146,6 +180,18 @@ class ModalEditGroup extends Component {
                                                         ))
                                                     }
                                                 </TableBody>
+                                                <TableFooter>
+                                                    <TableRow>
+                                                        <TablePagination
+                                                            rowsPerPageOptions={[5, 10, 15]}
+                                                            count={this.props.panelsInGroup.length}
+                                                            rowsPerPage={this.state.rowsPanels}
+                                                            page={this.state.page}  
+                                                            onChangePage={this.handleChangePage}
+                                                            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                                        />
+                                                    </TableRow>
+                                                </TableFooter>
                                             </Table>
                                         </TableContainer>
                                     </TabPanel>
@@ -177,6 +223,18 @@ class ModalEditGroup extends Component {
                                                         ))
                                                     }
                                                 </TableBody>
+                                                <TableFooter>
+                                                    <TableRow>
+                                                        <TablePagination
+                                                            rowsPerPageOptions={[5, 10, 15]}
+                                                            count={this.props.panelsNoGroup.length}
+                                                            rowsPerPage={this.state.rowsPanels2}
+                                                            page={this.state.page2}  
+                                                            onChangePage={this.handleChangePage2}
+                                                            onChangeRowsPerPage={this.handleChangeRowsPerPage2}
+                                                        />
+                                                    </TableRow>
+                                                </TableFooter>
                                             </Table>
                                         </TableContainer>
                                     </TabPanel>

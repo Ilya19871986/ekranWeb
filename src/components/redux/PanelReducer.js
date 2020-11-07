@@ -1,13 +1,14 @@
 import { LOAD_PANELS, LOAD_CONTENT, SHOW_LOADER, HIDE_LOADER, DELETE_PANEL, SHOW_LOADER_CONTENT, HIDE_LOADER_CONTENT,
     GET_LIST_GROUP_PANELS, SHOW_LOADER_GROUPS, HIDE_LOADER_GROUPS, GET_LIST_PANELS_IN_GROUP, SHOW_LOADER_PANELS_IN_GROUP,
     HIDE_LOADER_PANELS_IN_GROUP, GET_LIST_PANELS_NO_GROUP, GET_CONTENT_IN_GROUP, SHOW_LOADER_CONTENT_IN_GROUP,
-    HIDE_LOADER_CONTENT_IN_GROUP } from "./const" 
+    HIDE_LOADER_CONTENT_IN_GROUP, GET_STATUS_FILE_IN_GROUP, SHOW_LOADE_STATUS_FILE_IN_GROUP, HIDE_LOADE_STATUS_FILE_IN_GROUP } from "./const" 
 
 const initState = {
     panels: [],
     content: [],
     contentCurrentGroup: [], // контент загруженный в текущую группу
     showLoaderContentGroup: false, // лоадер загрузки контента текущей группы
+    statusFileInGroup: [],
     panelsGroup: [],
     panelsInGroup: [],
     panelsNoGroup: [],
@@ -16,6 +17,7 @@ const initState = {
     showLoader: false,
     resultDeletePanel: null,
     showLoaderContent: false,
+    showLoaderStatusFileInGroup: false, // лоадер загрузки статуса файла на панелях
 }
 
 export const PanelsReducer = (state = initState, action) => {
@@ -47,11 +49,19 @@ export const PanelsReducer = (state = initState, action) => {
 
         // контент в группах
         case GET_CONTENT_IN_GROUP: 
-            return {...state, contentCurrentGroupels: action.payload}
+            return {...state, contentCurrentGroup: action.payload}
         case SHOW_LOADER_CONTENT_IN_GROUP: 
             return {...state, showLoaderContentGroup: true}
         case HIDE_LOADER_CONTENT_IN_GROUP: 
             return {...state, showLoaderContentGroup: false}
+
+        // статус файла в группах
+        case GET_STATUS_FILE_IN_GROUP: 
+            return {...state, statusFileInGroup: action.payload}
+        case SHOW_LOADE_STATUS_FILE_IN_GROUP: 
+            return {...state, showLoaderStatusFileInGroup: true}
+        case HIDE_LOADE_STATUS_FILE_IN_GROUP: 
+            return {...state, showLoaderStatusFileInGroup: false}
 
         default: return state
     }

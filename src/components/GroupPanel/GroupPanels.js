@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import Table from '@material-ui/core/Table';
+
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
@@ -37,6 +39,8 @@ class GroupPanels extends Component {
             openModalEditGroup: false,
             openModalContentGroup: false,
             selectedGroup: "",
+            rowsPanels: 10,
+            page: 0,
         }
     }
 
@@ -86,6 +90,19 @@ class GroupPanels extends Component {
     ModalContent = (e, group) => {
         this.setState({selectedGroup: group})
         this.setState({openModalContentGroup: !this.state.openModalContentGroup})
+    }
+
+    handleChangePage = (event, newPage) => {
+        this.setState({
+            page: newPage
+        })
+    }
+
+    handleChangeRowsPerPage = (e) => {
+        this.setState({
+            rowsPanels: e.target.value,
+            page: 0
+        })
     }
 
     render() {
@@ -138,6 +155,18 @@ class GroupPanels extends Component {
                                 ))
                             }
                         </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 15]}
+                                    count={this.props.groups.length}
+                                    rowsPerPage={this.state.rowsPanels}
+                                    page={this.state.page}  
+                                    onChangePage={this.handleChangePage}
+                                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
 

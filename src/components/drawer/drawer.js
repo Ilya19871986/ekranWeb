@@ -156,7 +156,8 @@ export default function MiniDrawer() {
               color="inherit"
             >
             <AccountCircle />
-          </IconButton>{localStorage.getItem('surname') + ' ' + localStorage.getItem('name')}
+          </IconButton>{(localStorage.getItem('surname') == "null" ? "---" : localStorage.getItem('surname')) + ' ' + 
+                        (localStorage.getItem('name') == "null" ? "---" : localStorage.getItem('name')) }
         </Toolbar>
       </AppBar>
       <Drawer
